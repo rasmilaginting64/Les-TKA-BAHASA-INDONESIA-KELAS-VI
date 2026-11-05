@@ -8,7 +8,16 @@
 <script type="module">
 import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';import{getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';import{getFirestore,collection,addDoc,getDocs,query,orderBy,serverTimestamp}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 // Ganti konfigurasi berikut dari Firebase Console sebelum dipublikasikan.
-const firebaseConfig={apiKey:'GANTI_API_KEY',authDomain:'GANTI_PROJECT.firebaseapp.com',projectId:'GANTI_PROJECT_ID',storageBucket:'GANTI_PROJECT.appspot.com',messagingSenderId:'GANTI_SENDER_ID',appId:'GANTI_APP_ID'};let app=null,auth=null,db=null;const ready=!Object.values(firebaseConfig).some(x=>x.startsWith('GANTI_'));if(ready){app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app)}
+const firebaseConfig={// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBC2h8JOpIShl6bCusjphcWMIyHl4K-mQ8",
+  authDomain: "tka-bahasa-indonesia-2026.firebaseapp.com",
+  projectId: "tka-bahasa-indonesia-2026",
+  storageBucket: "tka-bahasa-indonesia-2026.firebasestorage.app",
+  messagingSenderId: "259511176988",
+  appId: "1:259511176988:web:978bf136d1a025eb3cf4d9",
+  measurementId: "G-FZFNY0KXDD"
+};};let app=null,auth=null,db=null;const ready=!Object.values(firebaseConfig).some(x=>x.startsWith('GANTI_'));if(ready){app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app)}
 const $=id=>document.getElementById(id);const ids=['home','quiz','result','teacher'];function show(id){ids.forEach(x=>$(x).classList.toggle('hide',x!==id))}let soundOn=true,student=null,questions=[],idx=0,chosen=[],lastRows=[],lastScore=0;
 const texts={sungai:'Warga Desa Harapan membersihkan sungai setiap hari Minggu. Mereka mengangkat sampah plastik, memangkas rumput liar, dan memasang papan ajakan menjaga kebersihan. Setelah tiga bulan, aliran sungai menjadi lebih lancar dan lingkungan tampak rapi.',perpus:'Perpustakaan sekolah mengadakan program Satu Pekan Satu Buku. Siswa boleh meminjam satu buku selama tujuh hari. Petugas mencatat judul buku dan tanggal pengembalian. Program ini bertujuan membiasakan siswa membaca dan merawat buku.',lani:'Pagi itu, Lani menemukan dompet di halaman sekolah. Ia tidak membuka isinya. Lani menyerahkan dompet tersebut kepada guru piket. Pemilik dompet datang dan berterima kasih karena uang serta kartu pelajarnya masih lengkap.',kebun:'Kebun sekolah ditanami cabai, tomat, dan bayam. Setiap kelompok mendapat jadwal menyiram tanaman. Daun kering dikumpulkan untuk dibuat kompos. Kompos membantu menyuburkan tanah dan mengurangi sampah organik.'};
 const raw=[
