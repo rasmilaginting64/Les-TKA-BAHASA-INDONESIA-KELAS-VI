@@ -46,4 +46,31 @@ $('again').onclick=start;$('backHome').onclick=()=>show('home');$('showCert').on
 $('loginBtn').onclick=async()=>{if(!auth){$('loginMsg').textContent='Isi konfigurasi Firebase terlebih dahulu.';return}try{await signInWithEmailAndPassword(auth,$('email').value,$('password').value)}catch(e){$('loginMsg').textContent='Login gagal: '+e.message}};if(auth)onAuthStateChanged(auth,u=>{if(u){$('login').classList.add('hide');$('dash').classList.remove('hide');load()}else{$('login').classList.remove('hide');$('dash').classList.add('hide')}});$('logout').onclick=()=>signOut(auth);$('reload').onclick=load;
 async function load(){if(!db||!auth?.currentUser)return;try{let s=await getDocs(query(collection(db,'quizResults'),orderBy('createdAt','desc')));lastRows=s.docs.map(d=>d.data());$('total').textContent=lastRows.length;$('avg').textContent=lastRows.length?(lastRows.reduce((a,r)=>a+(r.nilai||0),0)/lastRows.length).toFixed(1):0;$('rows').innerHTML=lastRows.map(r=>`<tr><td>${esc(r.nama)}</td><td>${esc(r.kelas)}</td><td>${esc(r.absen)}</td><td>${r.nilai}</td><td>${r.benar}/50</td><td>${esc(r.tanggal)}</td></tr>`).join('')}catch(e){$('loginMsg').textContent='Gagal memuat data: '+e.message}}function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 $('csv').onclick=()=>{let lines=[['Nama','Kelas','Absen','Nilai','Benar','Salah','Tanggal'],...lastRows.map(r=>[r.nama,r.kelas,r.absen,r.nilai,r.benar,r.salah,r.tanggal])];download('\ufeff'+lines.map(x=>x.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(';')).join('\n'),'Rekap_TKA.csv','text/csv;charset=utf-8')};$('doc').onclick=()=>{let rows=lastRows.map(r=>`<tr><td>${esc(r.nama)}</td><td>${esc(r.kelas)}</td><td>${esc(r.absen)}</td><td>${r.nilai}</td><td>${esc(r.tanggal)}</td></tr>`).join('');download(`<html><meta charset="utf-8"><h1>Rekap TKA Bahasa Indonesia</h1><table border="1"><tr><th>Nama</th><th>Kelas</th><th>Absen</th><th>Nilai</th><th>Tanggal</th></tr>${rows}</table></html>`,'Rekap_TKA.doc','application/msword')};$('pdf').onclick=()=>window.print();function download(data,name,type){let u=URL.createObjectURL(new Blob([data],{type})),a=document.createElement('a');a.href=u;a.download=name;a.click();URL.revokeObjectURL(u)}
-</script></body></html>
+function tanggalHariIni() {
+  const sekarang = new Date();
+  const tahun = sekarang.getFullYear();
+  const bulan = String(sekarang.getMonth() + 1).padStart(2, "0");
+  const hari = String(sekarang.getDate()).padStart(2, "0");
+
+  return `${tahun}-${bulan}-${hari}`;
+}
+
+function formatTanggalIndonesia(tanggal) {
+  if (!tanggal) return "-";
+
+  const [tahun, bulan, hari] = tanggal.split("-");
+  return new Date(
+    Number(tahun),
+    Number(bulan) - 1,
+    Number(hari)
+  ).toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const kolom = document.getElementById("tanggal");
+  if (kolom) kolom.value = tanggalHariIni();
+});</script></body></html>
