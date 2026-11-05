@@ -11,8 +11,16 @@
 <script type="module">
 import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';import{getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';import{getFirestore,collection,addDoc,getDocs,query,orderBy,serverTimestamp}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 // Ganti konfigurasi berikut dari Firebase Console sebelum dipublikasikan.
-const firebaseConfig={apiKey:'GANTI_API_KEY',authDomain:'GANTI_PROJECT.firebaseapp.com',projectId:'GANTI_PROJECT_ID',storageBucket:'GANTI_PROJECT.appspot.com',messagingSenderId:'GANTI_SENDER_ID',appId:'GANTI_APP_ID'};let app=null,auth=null,db=null;const ready=!Object.values(firebaseConfig).some(x=>x.startsWith('GANTI_'));if(ready){app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app)}
-const $=id=>document.getElementById(id);
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBC2h8JOpIShl6bCusjphcWMIyHl4K-mQ8",
+  authDomain: "tka-bahasa-indonesia-2026.firebaseapp.com",
+  projectId: "tka-bahasa-indonesia-2026",
+  storageBucket: "tka-bahasa-indonesia-2026.firebasestorage.app",
+  messagingSenderId: "259511176988",
+  appId: "1:259511176988:web:978bf136d1a025eb3cf4d9",
+  measurementId: "G-FZFNY0KXDD"
+};const $=id=>document.getElementById(id);
 function tanggalHariIni(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
 function formatTanggalIndonesia(tanggal){if(!tanggal)return '-';const [tahun,bulan,hari]=tanggal.split('-');return new Date(Number(tahun),Number(bulan)-1,Number(hari)).toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})}
 function isiTanggalFormulir(){const el=$('tanggal');if(el)el.value=tanggalHariIni()}
