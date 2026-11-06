@@ -31,7 +31,13 @@ try {
   firebaseInitError = error;
   console.error('Firebase gagal diinisialisasi:', error);
 }
-const $=id=>document.getElementById(id);
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const $ = id => document.getElementById(id);
 function tanggalHariIni(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
 function formatTanggalIndonesia(tanggal){if(!tanggal)return '-';const [tahun,bulan,hari]=tanggal.split('-');return new Date(Number(tahun),Number(bulan)-1,Number(hari)).toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})}
 function isiTanggalFormulir(){const el=$('tanggal');if(el)el.value=tanggalHariIni()}
